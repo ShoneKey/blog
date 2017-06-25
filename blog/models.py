@@ -1,6 +1,9 @@
 # coding:utf-8
 
 from datetime import datetime
+
+import bleach as bleach
+from markdown import markdown
 from flask_login import UserMixin
 
 from . import db
@@ -51,10 +54,20 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), unique=True)
     body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
 
     def __repr__(self):
         return '<Post %r>' % self.title
@@ -62,6 +75,7 @@ class Post(db.Model):
     def __unicode__(self):
         return self.title
 
+db.event.listen(Post.body, 'set', Post.on_changed_body)
 
 class Category(db.Model):
     __tablename__ = 'categories'

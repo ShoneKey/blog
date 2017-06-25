@@ -34,7 +34,9 @@
     </div>
     {% endfor %}
 
-    {% block page_content %}{% endblock %}
+    {% block page_content %}
+    <div class="container"><a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg">back real world</a> </div>
+    {% endblock %}
 </div>
 {% endblock %}
 

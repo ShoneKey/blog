@@ -7,6 +7,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = '123456790'
     FLASK_ADMIN_SWATCH = 'Flatly'
+    BLOG_POSTS_PER_PAGE = 1
 
     @staticmethod
     def init_app(app):

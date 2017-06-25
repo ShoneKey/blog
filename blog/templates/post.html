@@ -4,14 +4,15 @@
 {% block page_header %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url({{ url_for('static',filename='img/post-bg.jpg') }})" >
+    <header class="intro-header" style="background-image: url({{ url_for('static',filename='img/post-bg.jpg') }})">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                         <h1>{{ post.title }}</h1>
-                        <h2 class="subheading">{{ post.body |truncate(60)}}</h2>
-                        <span class="meta">Posted by <a href="#">{{ post.author.username }}</a> {{ moment(post.timestamp).format('LLL') }}</span>
+                        <h2 class="subheading">{{ post.body |truncate(60) }}</h2>
+                        <span class="meta">Posted by <a
+                                href="#">{{ post.author.username }}</a> {{ moment(post.timestamp).format('LLL') }}</span>
                     </div>
                 </div>
             </div>
@@ -25,8 +26,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    {{ post.body }}
-                    <p>Placeholder text by <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
+                    {% if post.body_html %}
+                        {{ post.body_html | safe }}
+                    {% else %}
+                        {{ post.body }}
+                    {% endif %}
+                    <p>Placeholder text by <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by <a
+                            href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
+                    <!-- Pager -->
+                    <ul class="pager">
+                        {% if pagination.has_prev %}
+                            <li class="prev" style="float:left">
+                                <a href="{{ url_for('main.post',post_id=pagination.prev_num) }}">上一篇 &larr;</a>
+                            </li>
+                        {% endif %}
+                        {% if pagination.has_next %}
+
+                            <li class="next">
+                                <a href="{{ url_for('main.post',post_id=pagination.next_num) }}">下一篇 &rarr;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>
