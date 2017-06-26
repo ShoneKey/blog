@@ -8,6 +8,7 @@ class Config:
     SECRET_KEY = '123456790'
     FLASK_ADMIN_SWATCH = 'Flatly'
     BLOG_POSTS_PER_PAGE = 1
+    INDEX_POSTS_PER_PAGE = 3
 
     @staticmethod
     def init_app(app):

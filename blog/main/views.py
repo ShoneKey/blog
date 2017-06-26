@@ -5,11 +5,14 @@ from . import main
 from ..models import  Role, User, Post
 
 # views
-@main.route('/')
-def index():
+@main.route('/<int:page>')
+def index(page):
     # 暂时从数据库获取
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', posts=posts)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['INDEX_POSTS_PER_PAGE'],
+        error_out=False)
+    posts=pagination.items
+    return render_template('index.html',posts=posts, pagination=pagination)
 
 
 @main.route('/post/<int:post_id>')
@@ -19,7 +22,6 @@ def post(post_id):
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, per_page=current_app.config['BLOG_POSTS_PER_PAGE'],
         error_out=False)
-    posts = pagination.items
     return render_template('post.html', post=post,pagination=pagination)
 
 

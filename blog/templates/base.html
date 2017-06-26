@@ -18,7 +18,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Error-{% block error_code %}{% endblock error_code %}</a>
+            <a class="navbar-brand" href="{{ url_for('main.index',page=1) }}">Error-{% block error_code %}{% endblock error_code %}</a>
         </div>
 
     </div>
@@ -35,7 +35,7 @@
     {% endfor %}
 
     {% block page_content %}
-    <div class="container"><a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg">back real world</a> </div>
+    <div class="container"><a href="{{ url_for('main.index',page=1) }}" class="btn btn-primary btn-lg">back real world</a> </div>
     {% endblock %}
 </div>
 {% endblock %}

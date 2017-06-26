@@ -24,14 +24,23 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {% if pagination %}
                 {% for post in posts %}
                     {% include '_post_preview.html' %}
                 {% endfor %}
+            {% endif %}
                 <!-- Pager -->
                 <ul class="pager">
-                    <li class="next">
-                        <a href="#">Older Posts &rarr;</a>
-                    </li>
+                    {% if pagination.has_prev %}
+                        <li class="prev" style="float:left">
+                            <a href="{{ url_for('main.index',page=pagination.prev_num) }}">上一篇 &larr;</a>
+                        </li>
+                    {% endif %}
+                    {% if pagination.has_next %}
+                        <li class="next">
+                            <a href="{{ url_for('main.index',page=pagination.next_num) }}">下一篇 &rarr;</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

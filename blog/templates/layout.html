@@ -49,7 +49,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="{{ url_for('main.index') }}">主页</a>
+                            <a href="{{ url_for('main.index',page=1) }}">主页</a>
                         </li>
                         <li>
                             <a href="{{url_for('main.post',post_id=1) }}">文章</a>
